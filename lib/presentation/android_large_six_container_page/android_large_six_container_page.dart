@@ -1,16 +1,28 @@
-import '../android_large_six_page/widgets/listtraveltext_item_widget.dart';
+import '../android_large_six_container_page/widgets/listtraveltext_item_widget.dart';
+import 'bloc/android_large_six_container_bloc.dart';
+import 'models/android_large_six_container_model.dart';
+import 'models/listtraveltext_item_model.dart';
 import 'package:flutter/material.dart';
 import 'package:sauti_app/core/app_export.dart';
 import 'package:sauti_app/widgets/custom_search_view.dart';
 
 // ignore_for_file: must_be_immutable
-class AndroidLargeSixPage extends StatelessWidget {
-  AndroidLargeSixPage({Key? key})
+class AndroidLargeSixContainerPage extends StatelessWidget {
+  const AndroidLargeSixContainerPage({Key? key})
       : super(
           key: key,
         );
 
-  TextEditingController searchController = TextEditingController();
+  static Widget builder(BuildContext context) {
+    return BlocProvider<AndroidLargeSixContainerBloc>(
+      create: (context) =>
+          AndroidLargeSixContainerBloc(AndroidLargeSixContainerState(
+        androidLargeSixContainerModelObj: AndroidLargeSixContainerModel(),
+      ))
+            ..add(AndroidLargeSixContainerInitialEvent()),
+      child: AndroidLargeSixContainerPage(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,47 +42,53 @@ class AndroidLargeSixPage extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(left: 12.h),
                   child: Text(
-                    "Search",
+                    "lbl_search".tr,
                     style: theme.textTheme.titleSmall,
                   ),
                 ),
                 Align(
                   alignment: Alignment.center,
-                  child: CustomSearchView(
-                    margin: EdgeInsets.only(
-                      left: 16.h,
-                      top: 11.v,
-                      right: 15.h,
-                    ),
-                    controller: searchController,
-                    hintText: "Search your interrest",
-                    alignment: Alignment.center,
-                    prefix: Container(
-                      margin: EdgeInsets.symmetric(
-                        horizontal: 30.h,
-                        vertical: 2.v,
-                      ),
-                      child: CustomImageView(
-                        svgPath: ImageConstant.imgSearch,
-                      ),
-                    ),
-                    prefixConstraints: BoxConstraints(
-                      maxHeight: 21.v,
-                    ),
-                    suffix: Padding(
-                      padding: EdgeInsets.only(
-                        right: 15.h,
-                      ),
-                      child: IconButton(
-                        onPressed: () {
-                          searchController.clear();
-                        },
-                        icon: Icon(
-                          Icons.clear,
-                          color: Colors.grey.shade600,
+                  child: BlocSelector<AndroidLargeSixContainerBloc,
+                      AndroidLargeSixContainerState, TextEditingController?>(
+                    selector: (state) => state.searchController,
+                    builder: (context, searchController) {
+                      return CustomSearchView(
+                        margin: EdgeInsets.only(
+                          left: 16.h,
+                          top: 11.v,
+                          right: 15.h,
                         ),
-                      ),
-                    ),
+                        controller: searchController,
+                        hintText: "msg_search_your_interrest".tr,
+                        alignment: Alignment.center,
+                        prefix: Container(
+                          margin: EdgeInsets.symmetric(
+                            horizontal: 30.h,
+                            vertical: 2.v,
+                          ),
+                          child: CustomImageView(
+                            svgPath: ImageConstant.imgSearch,
+                          ),
+                        ),
+                        prefixConstraints: BoxConstraints(
+                          maxHeight: 21.v,
+                        ),
+                        suffix: Padding(
+                          padding: EdgeInsets.only(
+                            right: 15.h,
+                          ),
+                          child: IconButton(
+                            onPressed: () {
+                              searchController!.clear();
+                            },
+                            icon: Icon(
+                              Icons.clear,
+                              color: Colors.grey.shade600,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
                 Padding(
@@ -79,7 +97,7 @@ class AndroidLargeSixPage extends StatelessWidget {
                     top: 11.v,
                   ),
                   child: Text(
-                    "Browse All Categories",
+                    "msg_browse_all_categories".tr,
                     style: theme.textTheme.labelLarge,
                   ),
                 ),
@@ -88,26 +106,43 @@ class AndroidLargeSixPage extends StatelessWidget {
                   child: Container(
                     height: 573.v,
                     padding: EdgeInsets.symmetric(vertical: 121.v),
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      separatorBuilder: (
-                        context,
-                        index,
-                      ) {
-                        return SizedBox(
-                          width: 361.0.h,
-                          child: Divider(
-                            height: 1.v,
-                            thickness: 1.v,
-                            color: theme.colorScheme.errorContainer,
-                            indent: 0.5.h,
-                            endIndent: 0.5.h,
-                          ),
+                    child: BlocSelector<
+                        AndroidLargeSixContainerBloc,
+                        AndroidLargeSixContainerState,
+                        AndroidLargeSixContainerModel?>(
+                      selector: (state) =>
+                          state.androidLargeSixContainerModelObj,
+                      builder: (context, androidLargeSixContainerModelObj) {
+                        return ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          separatorBuilder: (
+                            context,
+                            index,
+                          ) {
+                            return SizedBox(
+                              width: 361.0.h,
+                              child: Divider(
+                                height: 1.v,
+                                thickness: 1.v,
+                                color: theme.colorScheme.errorContainer,
+                                indent: 0.5.h,
+                                endIndent: 0.5.h,
+                              ),
+                            );
+                          },
+                          itemCount: androidLargeSixContainerModelObj
+                                  ?.listtraveltextItemList.length ??
+                              0,
+                          itemBuilder: (context, index) {
+                            ListtraveltextItemModel model =
+                                androidLargeSixContainerModelObj
+                                        ?.listtraveltextItemList[index] ??
+                                    ListtraveltextItemModel();
+                            return ListtraveltextItemWidget(
+                              model,
+                            );
+                          },
                         );
-                      },
-                      itemCount: 1,
-                      itemBuilder: (context, index) {
-                        return ListtraveltextItemWidget();
                       },
                     ),
                   ),
@@ -115,7 +150,7 @@ class AndroidLargeSixPage extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(left: 16.h),
                   child: Text(
-                    "Business",
+                    "lbl_business".tr,
                     style: theme.textTheme.labelLarge,
                   ),
                 ),
@@ -125,7 +160,7 @@ class AndroidLargeSixPage extends StatelessWidget {
                     top: 10.v,
                   ),
                   child: Text(
-                    "Finance & Management",
+                    "msg_finance_management".tr,
                     style: theme.textTheme.labelLarge,
                   ),
                 ),
@@ -135,7 +170,7 @@ class AndroidLargeSixPage extends StatelessWidget {
                     top: 7.v,
                   ),
                   child: Text(
-                    "Horror fiction",
+                    "lbl_horror_fiction".tr,
                     style: theme.textTheme.labelLarge,
                   ),
                 ),
@@ -145,7 +180,7 @@ class AndroidLargeSixPage extends StatelessWidget {
                     top: 6.v,
                   ),
                   child: Text(
-                    "Thriller",
+                    "lbl_thriller".tr,
                     style: theme.textTheme.labelLarge,
                   ),
                 ),
@@ -155,7 +190,7 @@ class AndroidLargeSixPage extends StatelessWidget {
                     top: 9.v,
                   ),
                   child: Text(
-                    "True Crime",
+                    "lbl_true_crime".tr,
                     style: theme.textTheme.labelLarge,
                   ),
                 ),
@@ -165,7 +200,7 @@ class AndroidLargeSixPage extends StatelessWidget {
                     top: 29.v,
                   ),
                   child: Text(
-                    "Social Science",
+                    "lbl_social_science".tr,
                     style: theme.textTheme.labelLarge,
                   ),
                 ),
@@ -175,7 +210,7 @@ class AndroidLargeSixPage extends StatelessWidget {
                     top: 9.v,
                   ),
                   child: Text(
-                    "Children’s",
+                    "lbl_children_s".tr,
                     style: theme.textTheme.labelLarge,
                   ),
                 ),
@@ -185,7 +220,7 @@ class AndroidLargeSixPage extends StatelessWidget {
                     top: 10.v,
                   ),
                   child: Text(
-                    "Biography & Memoir",
+                    "msg_biography_memoir".tr,
                     style: theme.textTheme.labelLarge,
                   ),
                 ),
@@ -195,7 +230,7 @@ class AndroidLargeSixPage extends StatelessWidget {
                     top: 4.v,
                   ),
                   child: Text(
-                    "Language Arts & Discipline",
+                    "msg_language_arts".tr,
                     style: theme.textTheme.labelLarge,
                   ),
                 ),
@@ -205,7 +240,7 @@ class AndroidLargeSixPage extends StatelessWidget {
                     top: 7.v,
                   ),
                   child: Text(
-                    "Law",
+                    "lbl_law".tr,
                     style: theme.textTheme.labelLarge,
                   ),
                 ),
@@ -215,7 +250,7 @@ class AndroidLargeSixPage extends StatelessWidget {
                     top: 9.v,
                   ),
                   child: Text(
-                    "Wellness",
+                    "lbl_wellness".tr,
                     style: theme.textTheme.labelLarge,
                   ),
                 ),
@@ -225,7 +260,7 @@ class AndroidLargeSixPage extends StatelessWidget {
                     top: 8.v,
                   ),
                   child: Text(
-                    "Poetry",
+                    "lbl_poetry".tr,
                     style: theme.textTheme.labelLarge,
                   ),
                 ),
@@ -235,7 +270,7 @@ class AndroidLargeSixPage extends StatelessWidget {
                     top: 7.v,
                   ),
                   child: Text(
-                    "Romance",
+                    "lbl_romance".tr,
                     style: theme.textTheme.labelLarge,
                   ),
                 ),
@@ -245,7 +280,7 @@ class AndroidLargeSixPage extends StatelessWidget {
                     top: 5.v,
                   ),
                   child: Text(
-                    "Religious & Spirituality",
+                    "msg_religious_spirituality".tr,
                     style: theme.textTheme.labelLarge,
                   ),
                 ),
@@ -255,7 +290,7 @@ class AndroidLargeSixPage extends StatelessWidget {
                     top: 7.v,
                   ),
                   child: Text(
-                    "Law",
+                    "lbl_law".tr,
                     style: theme.textTheme.labelLarge,
                   ),
                 ),
@@ -265,7 +300,7 @@ class AndroidLargeSixPage extends StatelessWidget {
                     top: 8.v,
                   ),
                   child: Text(
-                    "Wellness",
+                    "lbl_wellness".tr,
                     style: theme.textTheme.labelLarge,
                   ),
                 ),
@@ -275,7 +310,7 @@ class AndroidLargeSixPage extends StatelessWidget {
                     top: 8.v,
                   ),
                   child: Text(
-                    "Politics",
+                    "lbl_politics".tr,
                     style: theme.textTheme.labelLarge,
                   ),
                 ),
@@ -285,7 +320,7 @@ class AndroidLargeSixPage extends StatelessWidget {
                     top: 10.v,
                   ),
                   child: Text(
-                    "Biography & Memoir",
+                    "msg_biography_memoir".tr,
                     style: theme.textTheme.labelLarge,
                   ),
                 ),
@@ -295,7 +330,7 @@ class AndroidLargeSixPage extends StatelessWidget {
                     top: 4.v,
                   ),
                   child: Text(
-                    "Language Arts & Discipline",
+                    "msg_language_arts".tr,
                     style: theme.textTheme.labelLarge,
                   ),
                 ),
@@ -305,7 +340,7 @@ class AndroidLargeSixPage extends StatelessWidget {
                     top: 7.v,
                   ),
                   child: Text(
-                    "Short STories",
+                    "lbl_short_stories".tr,
                     style: theme.textTheme.labelLarge,
                   ),
                 ),
@@ -315,7 +350,7 @@ class AndroidLargeSixPage extends StatelessWidget {
                     top: 10.v,
                   ),
                   child: Text(
-                    "Self-Improvement",
+                    "msg_self_improvement".tr,
                     style: theme.textTheme.labelLarge,
                   ),
                 ),
@@ -325,7 +360,7 @@ class AndroidLargeSixPage extends StatelessWidget {
                     top: 6.v,
                   ),
                   child: Text(
-                    "History",
+                    "lbl_history".tr,
                     style: theme.textTheme.labelLarge,
                   ),
                 ),
@@ -335,7 +370,7 @@ class AndroidLargeSixPage extends StatelessWidget {
                     top: 9.v,
                   ),
                   child: Text(
-                    "Cooking, Food  & drinks",
+                    "msg_cooking_food".tr,
                     style: theme.textTheme.labelLarge,
                   ),
                 ),
@@ -346,7 +381,7 @@ class AndroidLargeSixPage extends StatelessWidget {
                     bottom: 12.v,
                   ),
                   child: Text(
-                    "Science & Mathematics",
+                    "msg_science_mathematics".tr,
                     style: theme.textTheme.labelLarge,
                   ),
                 ),

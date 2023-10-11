@@ -1,6 +1,8 @@
+import 'bloc/android_large_four_bloc.dart';
+import 'models/android_large_four_model.dart';
 import 'package:flutter/material.dart';
 import 'package:sauti_app/core/app_export.dart';
-import 'package:sauti_app/presentation/android_large_six_page/android_large_six_page.dart';
+import 'package:sauti_app/presentation/android_large_six_container_page/android_large_six_container_page.dart';
 import 'package:sauti_app/presentation/android_large_three_page/android_large_three_page.dart';
 import 'package:sauti_app/widgets/app_bar/appbar_circleimage.dart';
 import 'package:sauti_app/widgets/app_bar/appbar_subtitle_1.dart';
@@ -15,130 +17,144 @@ class AndroidLargeFourScreen extends StatelessWidget {
 
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
+  static Widget builder(BuildContext context) {
+    return BlocProvider<AndroidLargeFourBloc>(
+      create: (context) => AndroidLargeFourBloc(AndroidLargeFourState(
+        androidLargeFourModelObj: AndroidLargeFourModel(),
+      ))
+        ..add(AndroidLargeFourInitialEvent()),
+      child: AndroidLargeFourScreen(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
 
-    return SafeArea(
-      child: Scaffold(
-        appBar: CustomAppBar(
-          height: 92.v,
-          title: Padding(
-            padding: EdgeInsets.only(left: 27.h),
-            child: Row(
-              children: [
-                AppbarSubtitle1(
-                  text: "Account",
-                  margin: EdgeInsets.only(bottom: 64.v),
+    return BlocBuilder<AndroidLargeFourBloc, AndroidLargeFourState>(
+      builder: (context, state) {
+        return SafeArea(
+          child: Scaffold(
+            appBar: CustomAppBar(
+              height: 92.v,
+              title: Padding(
+                padding: EdgeInsets.only(left: 27.h),
+                child: Row(
+                  children: [
+                    AppbarSubtitle1(
+                      text: "lbl_account".tr,
+                      margin: EdgeInsets.only(bottom: 64.v),
+                    ),
+                    AppbarCircleimage(
+                      imagePath: ImageConstant.imgEllipse3,
+                      margin: EdgeInsets.only(
+                        left: 35.h,
+                        top: 8.v,
+                      ),
+                    ),
+                  ],
                 ),
-                AppbarCircleimage(
-                  imagePath: ImageConstant.imgEllipse3,
-                  margin: EdgeInsets.only(
-                    left: 35.h,
-                    top: 8.v,
+              ),
+            ),
+            body: Container(
+              width: double.maxFinite,
+              padding: EdgeInsets.symmetric(
+                horizontal: 26.h,
+                vertical: 9.v,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    decoration: AppDecoration.outlineBlack,
+                    child: Text(
+                      "lbl_hi_lilith".tr,
+                      style: CustomTextStyles.labelLargeWhiteA70002,
+                    ),
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: 1.h,
+                      top: 44.v,
+                    ),
+                    child: Text(
+                      "msg_account_information".tr,
+                      style: CustomTextStyles.titleSmallWhiteA70002Medium,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: 1.h,
+                      top: 54.v,
+                    ),
+                    child: Text(
+                      "lbl_faqs_support".tr,
+                      style: CustomTextStyles.titleSmallWhiteA70002Medium,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: 1.h,
+                      top: 41.v,
+                    ),
+                    child: Text(
+                      "msg_audio_player_settings".tr,
+                      style: CustomTextStyles.titleSmallWhiteA70002Medium,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: 1.h,
+                      top: 47.v,
+                    ),
+                    child: Text(
+                      "msg_language_preference".tr,
+                      style: CustomTextStyles.titleSmallWhiteA70002Medium,
+                    ),
+                  ),
+                  SizedBox(height: 42.v),
+                  Text(
+                    "msg_language_preference".tr,
+                    style: CustomTextStyles.titleSmallWhiteA70002Medium,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: 1.h,
+                      top: 46.v,
+                    ),
+                    child: Text(
+                      "lbl_downloads".tr,
+                      style: CustomTextStyles.titleSmallWhiteA70002Medium,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: 1.h,
+                      top: 49.v,
+                    ),
+                    child: Text(
+                      "lbl_privacy".tr,
+                      style: CustomTextStyles.titleSmallWhiteA70002Medium,
+                    ),
+                  ),
+                  SizedBox(height: 51.v),
+                  Text(
+                    "lbl_invite_friends".tr,
+                    style: CustomTextStyles.titleSmallWhiteA70002Medium,
+                  ),
+                  SizedBox(height: 5.v),
+                ],
+              ),
+            ),
+            bottomNavigationBar: CustomBottomBar(
+              onChanged: (BottomBarEnum type) {
+                Navigator.pushNamed(
+                    navigatorKey.currentContext!, getCurrentRoute(type));
+              },
             ),
           ),
-        ),
-        body: Container(
-          width: double.maxFinite,
-          padding: EdgeInsets.symmetric(
-            horizontal: 26.h,
-            vertical: 9.v,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                decoration: AppDecoration.outlineBlack,
-                child: Text(
-                  "Hi Lilith",
-                  style: CustomTextStyles.labelLargeWhiteA70002,
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                  left: 1.h,
-                  top: 44.v,
-                ),
-                child: Text(
-                  "Account Information",
-                  style: CustomTextStyles.titleSmallWhiteA70002Medium,
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                  left: 1.h,
-                  top: 54.v,
-                ),
-                child: Text(
-                  "FAQs & Support",
-                  style: CustomTextStyles.titleSmallWhiteA70002Medium,
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                  left: 1.h,
-                  top: 41.v,
-                ),
-                child: Text(
-                  "Audio Player Settings",
-                  style: CustomTextStyles.titleSmallWhiteA70002Medium,
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                  left: 1.h,
-                  top: 47.v,
-                ),
-                child: Text(
-                  "Language Preference",
-                  style: CustomTextStyles.titleSmallWhiteA70002Medium,
-                ),
-              ),
-              SizedBox(height: 42.v),
-              Text(
-                "Language Preference",
-                style: CustomTextStyles.titleSmallWhiteA70002Medium,
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                  left: 1.h,
-                  top: 46.v,
-                ),
-                child: Text(
-                  "Downloads",
-                  style: CustomTextStyles.titleSmallWhiteA70002Medium,
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                  left: 1.h,
-                  top: 49.v,
-                ),
-                child: Text(
-                  "Privacy",
-                  style: CustomTextStyles.titleSmallWhiteA70002Medium,
-                ),
-              ),
-              SizedBox(height: 51.v),
-              Text(
-                "Invite Friends",
-                style: CustomTextStyles.titleSmallWhiteA70002Medium,
-              ),
-              SizedBox(height: 5.v),
-            ],
-          ),
-        ),
-        bottomNavigationBar: CustomBottomBar(
-          onChanged: (BottomBarEnum type) {
-            Navigator.pushNamed(
-                navigatorKey.currentContext!, getCurrentRoute(type));
-          },
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -146,7 +162,7 @@ class AndroidLargeFourScreen extends StatelessWidget {
   String getCurrentRoute(BottomBarEnum type) {
     switch (type) {
       case BottomBarEnum.Home:
-        return AppRoutes.androidLargeSixPage;
+        return AppRoutes.androidLargeSixContainerPage;
       case BottomBarEnum.Topcharts:
         return AppRoutes.androidLargeThreePage;
       case BottomBarEnum.Search:
@@ -161,12 +177,15 @@ class AndroidLargeFourScreen extends StatelessWidget {
   }
 
   ///Handling page based on route
-  Widget getCurrentPage(String currentRoute) {
+  Widget getCurrentPage(
+    BuildContext context,
+    String currentRoute,
+  ) {
     switch (currentRoute) {
-      case AppRoutes.androidLargeSixPage:
-        return AndroidLargeSixPage();
+      case AppRoutes.androidLargeSixContainerPage:
+        return AndroidLargeSixContainerPage.builder(context);
       case AppRoutes.androidLargeThreePage:
-        return AndroidLargeThreePage();
+        return AndroidLargeThreePage.builder(context);
       default:
         return DefaultWidget();
     }

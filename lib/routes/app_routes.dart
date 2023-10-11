@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sauti_app/presentation/android_large_one_screen/android_large_one_screen.dart';
 import 'package:sauti_app/presentation/android_large_two_screen/android_large_two_screen.dart';
-import 'package:sauti_app/presentation/android_large_six_container_screen/android_large_six_container_screen.dart';
+import 'package:sauti_app/presentation/android_large_six_container1_screen/android_large_six_container1_screen.dart';
 import 'package:sauti_app/presentation/android_large_five_screen/android_large_five_screen.dart';
 import 'package:sauti_app/presentation/android_large_four_screen/android_large_four_screen.dart';
 import 'package:sauti_app/presentation/android_large_seven_screen/android_large_seven_screen.dart';
@@ -14,10 +14,11 @@ class AppRoutes {
 
   static const String androidLargeThreePage = '/android_large_three_page';
 
-  static const String androidLargeSixPage = '/android_large_six_page';
+  static const String androidLargeSixContainerPage =
+      '/android_large_six_container_page';
 
-  static const String androidLargeSixContainerScreen =
-      '/android_large_six_container_screen';
+  static const String androidLargeSixContainer1Screen =
+      '/android_large_six_container1_screen';
 
   static const String androidLargeFiveScreen = '/android_large_five_screen';
 
@@ -27,14 +28,17 @@ class AppRoutes {
 
   static const String appNavigationScreen = '/app_navigation_screen';
 
-  static Map<String, WidgetBuilder> routes = {
-    androidLargeOneScreen: (context) => AndroidLargeOneScreen(),
-    androidLargeTwoScreen: (context) => AndroidLargeTwoScreen(),
-    androidLargeSixContainerScreen: (context) =>
-        AndroidLargeSixContainerScreen(),
-    androidLargeFiveScreen: (context) => AndroidLargeFiveScreen(),
-    androidLargeFourScreen: (context) => AndroidLargeFourScreen(),
-    androidLargeSevenScreen: (context) => AndroidLargeSevenScreen(),
-    appNavigationScreen: (context) => AppNavigationScreen()
-  };
+  static const String initialRoute = '/initialRoute';
+
+  static Map<String, WidgetBuilder> get routes => {
+        androidLargeOneScreen: AndroidLargeOneScreen.builder,
+        androidLargeTwoScreen: AndroidLargeTwoScreen.builder,
+        androidLargeSixContainer1Screen:
+            AndroidLargeSixContainer1Screen.builder,
+        androidLargeFiveScreen: AndroidLargeFiveScreen.builder,
+        androidLargeFourScreen: AndroidLargeFourScreen.builder,
+        androidLargeSevenScreen: AndroidLargeSevenScreen.builder,
+        appNavigationScreen: AppNavigationScreen.builder,
+        initialRoute: AndroidLargeOneScreen.builder
+      };
 }

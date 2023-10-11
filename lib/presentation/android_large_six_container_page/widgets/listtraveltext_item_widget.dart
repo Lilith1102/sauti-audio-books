@@ -1,12 +1,17 @@
+import '../models/listtraveltext_item_model.dart';
 import 'package:flutter/material.dart';
 import 'package:sauti_app/core/app_export.dart';
 
 // ignore: must_be_immutable
 class ListtraveltextItemWidget extends StatelessWidget {
-  const ListtraveltextItemWidget({Key? key})
-      : super(
+  ListtraveltextItemWidget(
+    this.listtraveltextItemModelObj, {
+    Key? key,
+  }) : super(
           key: key,
         );
+
+  ListtraveltextItemModel listtraveltextItemModelObj;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +27,7 @@ class ListtraveltextItemWidget extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.only(left: 16.h),
               child: Text(
-                "Travel",
+                "lbl_travel".tr,
                 style: theme.textTheme.labelLarge,
               ),
             ),

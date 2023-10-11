@@ -17,31 +17,31 @@ class CustomBottomBarState extends State<CustomBottomBar> {
     BottomMenuModel(
       icon: ImageConstant.imgNavhomeDeepOrange100,
       activeIcon: ImageConstant.imgNavhomeDeepOrange100,
-      title: "Home",
+      title: "lbl_home".tr,
       type: BottomBarEnum.Home,
     ),
     BottomMenuModel(
       icon: ImageConstant.imgNavtopcharts,
       activeIcon: ImageConstant.imgNavtopcharts,
-      title: "Top Charts",
+      title: "lbl_top_charts".tr,
       type: BottomBarEnum.Topcharts,
     ),
     BottomMenuModel(
       icon: ImageConstant.imgNavsearchPrimary,
       activeIcon: ImageConstant.imgNavsearchPrimary,
-      title: "Search",
+      title: "lbl_search".tr,
       type: BottomBarEnum.Search,
     ),
     BottomMenuModel(
       icon: ImageConstant.imgNavsavedDeepOrange100,
       activeIcon: ImageConstant.imgNavsavedDeepOrange100,
-      title: "Saved",
+      title: "lbl_saved".tr,
       type: BottomBarEnum.Saved,
     ),
     BottomMenuModel(
       icon: ImageConstant.imgNavaccount,
       activeIcon: ImageConstant.imgNavaccount,
-      title: "Account",
+      title: "lbl_account".tr,
       type: BottomBarEnum.Account,
     )
   ];
