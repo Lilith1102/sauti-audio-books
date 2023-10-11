@@ -2,11 +2,12 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../../core/app_export.dart';
 
-String _appTheme = "primary";
-
 /// Helper class for managing themes and colors.
 class ThemeHelper {
-  // A map of custom color themes supported by the app
+  // The current app theme
+  var _appTheme = PrefUtils().getThemeData();
+
+// A map of custom color themes supported by the app
   Map<String, PrimaryColors> _supportedCustomColor = {
     'primary': PrimaryColors()
   };
@@ -15,11 +16,6 @@ class ThemeHelper {
   Map<String, ColorScheme> _supportedColorScheme = {
     'primary': ColorSchemes.primaryColorScheme
   };
-
-  /// Changes the app theme to [_newTheme].
-  void changeTheme(String _newTheme) {
-    _appTheme = _newTheme;
-  }
 
   /// Returns the primary colors for the current theme.
   PrimaryColors _getThemeColors() {

@@ -1,3 +1,5 @@
+import 'bloc/android_large_three_bloc.dart';
+import 'models/android_large_three_model.dart';
 import 'package:flutter/material.dart';
 import 'package:sauti_app/core/app_export.dart';
 import 'package:sauti_app/widgets/custom_drop_down.dart';
@@ -5,16 +7,20 @@ import 'package:sauti_app/widgets/custom_rating_bar.dart';
 
 // ignore_for_file: must_be_immutable
 class AndroidLargeThreePage extends StatelessWidget {
-  AndroidLargeThreePage({Key? key})
+  const AndroidLargeThreePage({Key? key})
       : super(
           key: key,
         );
 
-  List<String> dropdownItemList = [
-    "Item One",
-    "Item Two",
-    "Item Three",
-  ];
+  static Widget builder(BuildContext context) {
+    return BlocProvider<AndroidLargeThreeBloc>(
+      create: (context) => AndroidLargeThreeBloc(AndroidLargeThreeState(
+        androidLargeThreeModelObj: AndroidLargeThreeModel(),
+      ))
+        ..add(AndroidLargeThreeInitialEvent()),
+      child: AndroidLargeThreePage(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +42,7 @@ class AndroidLargeThreePage extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(left: 9.h),
                   child: Text(
-                    "Top Charts",
+                    "lbl_top_charts".tr,
                     style: theme.textTheme.titleSmall,
                   ),
                 ),
@@ -47,25 +53,35 @@ class AndroidLargeThreePage extends StatelessWidget {
                   ),
                   decoration: AppDecoration.outlineBlack,
                   child: Text(
-                    "The most popular books generating buzz from critics and more.",
+                    "msg_the_most_popular".tr,
                     style: CustomTextStyles.labelMediumGray300,
                   ),
                 ),
-                CustomDropDown(
-                  width: 108.h,
-                  icon: Container(
-                    margin: EdgeInsets.fromLTRB(7.h, 8.v, 15.h, 6.v),
-                    child: CustomImageView(
-                      svgPath: ImageConstant.imgArrowdown,
-                    ),
-                  ),
-                  margin: EdgeInsets.only(
-                    left: 21.h,
-                    top: 9.v,
-                  ),
-                  hintText: "Categories",
-                  items: dropdownItemList,
-                  onChanged: (value) {},
+                BlocSelector<AndroidLargeThreeBloc, AndroidLargeThreeState,
+                    AndroidLargeThreeModel?>(
+                  selector: (state) => state.androidLargeThreeModelObj,
+                  builder: (context, androidLargeThreeModelObj) {
+                    return CustomDropDown(
+                      width: 108.h,
+                      icon: Container(
+                        margin: EdgeInsets.fromLTRB(7.h, 8.v, 15.h, 6.v),
+                        child: CustomImageView(
+                          svgPath: ImageConstant.imgArrowdown,
+                        ),
+                      ),
+                      margin: EdgeInsets.only(
+                        left: 21.h,
+                        top: 9.v,
+                      ),
+                      hintText: "lbl_categories".tr,
+                      items: androidLargeThreeModelObj?.dropdownItemList ?? [],
+                      onChanged: (value) {
+                        context
+                            .read<AndroidLargeThreeBloc>()
+                            .add(ChangeDropDownEvent(value: value));
+                      },
+                    );
+                  },
                 ),
                 Padding(
                   padding: EdgeInsets.only(
@@ -85,7 +101,7 @@ class AndroidLargeThreePage extends StatelessWidget {
                               Padding(
                                 padding: EdgeInsets.only(bottom: 80.v),
                                 child: Text(
-                                  "1.",
+                                  "lbl_1".tr,
                                   style: theme.textTheme.titleSmall,
                                 ),
                               ),
@@ -105,7 +121,7 @@ class AndroidLargeThreePage extends StatelessWidget {
                               Padding(
                                 padding: EdgeInsets.only(bottom: 80.v),
                                 child: Text(
-                                  "2.",
+                                  "lbl_2".tr,
                                   style: theme.textTheme.titleSmall,
                                 ),
                               ),
@@ -125,7 +141,7 @@ class AndroidLargeThreePage extends StatelessWidget {
                               Padding(
                                 padding: EdgeInsets.only(bottom: 80.v),
                                 child: Text(
-                                  "3.",
+                                  "lbl_3".tr,
                                   style: theme.textTheme.titleSmall,
                                 ),
                               ),
@@ -145,7 +161,7 @@ class AndroidLargeThreePage extends StatelessWidget {
                               Padding(
                                 padding: EdgeInsets.only(bottom: 80.v),
                                 child: Text(
-                                  "4.",
+                                  "lbl_4".tr,
                                   style: theme.textTheme.titleSmall,
                                 ),
                               ),
@@ -165,7 +181,7 @@ class AndroidLargeThreePage extends StatelessWidget {
                               Padding(
                                 padding: EdgeInsets.only(bottom: 80.v),
                                 child: Text(
-                                  "5.",
+                                  "lbl_5".tr,
                                   style: theme.textTheme.titleSmall,
                                 ),
                               ),
@@ -192,7 +208,7 @@ class AndroidLargeThreePage extends StatelessWidget {
                                 SizedBox(
                                   width: 79.h,
                                   child: Text(
-                                    "Ongeza Kipato \nchako",
+                                    "msg_ongeza_kipato_chako".tr,
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     textAlign: TextAlign.center,
@@ -216,7 +232,7 @@ class AndroidLargeThreePage extends StatelessWidget {
                                 top: 4.v,
                               ),
                               child: Text(
-                                "Joel A. Nanauka",
+                                "lbl_joel_a_nanauka".tr,
                                 style: theme.textTheme.labelSmall,
                               ),
                             ),
@@ -229,7 +245,7 @@ class AndroidLargeThreePage extends StatelessWidget {
                                 Padding(
                                   padding: EdgeInsets.only(left: 16.h),
                                   child: Text(
-                                    "4.3",
+                                    "lbl_4_3".tr,
                                     style: CustomTextStyles
                                         .interOnPrimaryContainer,
                                   ),
@@ -247,7 +263,7 @@ class AndroidLargeThreePage extends StatelessWidget {
                                 SizedBox(
                                   width: 79.h,
                                   child: Text(
-                                    "Ongeza Kipato \nchako",
+                                    "msg_ongeza_kipato_chako".tr,
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     textAlign: TextAlign.center,
@@ -272,7 +288,7 @@ class AndroidLargeThreePage extends StatelessWidget {
                                 top: 4.v,
                               ),
                               child: Text(
-                                "Joel A. Nanauka",
+                                "lbl_joel_a_nanauka".tr,
                                 style: theme.textTheme.labelSmall,
                               ),
                             ),
@@ -285,7 +301,7 @@ class AndroidLargeThreePage extends StatelessWidget {
                                 Padding(
                                   padding: EdgeInsets.only(left: 16.h),
                                   child: Text(
-                                    "4.3",
+                                    "lbl_4_3".tr,
                                     style: CustomTextStyles
                                         .interOnPrimaryContainer,
                                   ),
@@ -309,7 +325,7 @@ class AndroidLargeThreePage extends StatelessWidget {
                                     width: 79.h,
                                     margin: EdgeInsets.only(bottom: 1.v),
                                     child: Text(
-                                      "Ongeza Kipato \nchako",
+                                      "msg_ongeza_kipato_chako".tr,
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                       textAlign: TextAlign.center,
@@ -334,7 +350,7 @@ class AndroidLargeThreePage extends StatelessWidget {
                                 top: 3.v,
                               ),
                               child: Text(
-                                "Joel A. Nanauka",
+                                "lbl_joel_a_nanauka".tr,
                                 style: theme.textTheme.labelSmall,
                               ),
                             ),
@@ -362,7 +378,7 @@ class AndroidLargeThreePage extends StatelessWidget {
                                               padding:
                                                   EdgeInsets.only(left: 16.h),
                                               child: Text(
-                                                "4.3",
+                                                "lbl_4_3".tr,
                                                 style: CustomTextStyles
                                                     .interOnPrimaryContainer,
                                               ),
@@ -379,7 +395,7 @@ class AndroidLargeThreePage extends StatelessWidget {
                                       SizedBox(
                                         width: 79.h,
                                         child: Text(
-                                          "Ongeza Kipato \nchako",
+                                          "msg_ongeza_kipato_chako".tr,
                                           maxLines: 2,
                                           overflow: TextOverflow.ellipsis,
                                           textAlign: TextAlign.center,
@@ -392,7 +408,7 @@ class AndroidLargeThreePage extends StatelessWidget {
                                           top: 4.v,
                                         ),
                                         child: Text(
-                                          "Joel A. Nanauka",
+                                          "lbl_joel_a_nanauka".tr,
                                           style: theme.textTheme.labelSmall,
                                         ),
                                       ),
@@ -408,7 +424,7 @@ class AndroidLargeThreePage extends StatelessWidget {
                                             padding:
                                                 EdgeInsets.only(left: 16.h),
                                             child: Text(
-                                              "4.3",
+                                              "lbl_4_3".tr,
                                               style: CustomTextStyles
                                                   .interOnPrimaryContainer,
                                             ),
@@ -427,7 +443,7 @@ class AndroidLargeThreePage extends StatelessWidget {
                                           top: 28.v,
                                         ),
                                         child: Text(
-                                          "Ongeza Kipato \nchako",
+                                          "msg_ongeza_kipato_chako".tr,
                                           maxLines: 2,
                                           overflow: TextOverflow.ellipsis,
                                           textAlign: TextAlign.center,
@@ -438,7 +454,7 @@ class AndroidLargeThreePage extends StatelessWidget {
                                       Align(
                                         alignment: Alignment.center,
                                         child: Text(
-                                          "Joel A. Nanauka",
+                                          "lbl_joel_a_nanauka".tr,
                                           style: theme.textTheme.labelSmall,
                                         ),
                                       ),
@@ -456,7 +472,7 @@ class AndroidLargeThreePage extends StatelessWidget {
                                               padding:
                                                   EdgeInsets.only(left: 16.h),
                                               child: Text(
-                                                "4.3",
+                                                "lbl_4_3".tr,
                                                 style: CustomTextStyles
                                                     .interOnPrimaryContainer,
                                               ),
